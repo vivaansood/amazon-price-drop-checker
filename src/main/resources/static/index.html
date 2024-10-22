@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Price Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Product Price Tracker</h1>
+<input type="text" id="url" placeholder="Product URL">
+<input type="number" id="targetPrice" placeholder="Target Price">
+<button onclick="addProduct()">Add Product</button>
+<button onclick="checkPrices()">Check Prices</button>
+<table id="productTable">
+    <tr>
+        <th>Product URL</th>
+        <th>Title</th>
+        <th>Current Price</th>
+        <th>Target Price</th>
+    </tr>
+</table>
+<script>
+    async function addProduct() {
+        const url = document.getElementById('url').value;
+        const targetPrice = document.getElementById('targetPrice').value;
+        const response = await fetch(`/api/track/add-product?url=${encodeURIComponent(url)}&targetPrice=${targetPrice}`);
+        const product = await response.json();
+        displayProduct(product);
+    }
+
+    async function checkPrices() {
+        const response = await fetch('/api/track/check-prices');
+        const products = await response.json();
+        document.getElementById('productTable').innerHTML = `
+                <tr>
+                    <th>Product URL</th>
+                    <th>Title</th>
+                    <th>Current Price</th>
+                    <th>Target Price</th>
+                </tr>`;
+        products.forEach(displayProduct);
+    }
+
+    function displayProduct(product) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+                <td>${product.url}</td>
+                <td>${product.title}</td>
+                <td>${product.currentPrice}</td>
+                <td>${product.targetPrice}</td>`;
+        document.getElementById('productTable').appendChild(row);
+    }
+</script>
+</body>
+</html>
