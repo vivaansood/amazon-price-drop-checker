@@ -7,4 +7,3 @@ Currently, the application is partially functional. It successfully fetches the 
 
 The backend is built using Java with the Spring Boot framework, and Selenium is employed for scraping the required data from Amazon product pages. However, due to the dynamic nature of modern websites and the evolving structure of Amazon pages, ensuring consistent data retrieval is complex.
 
-This project is a work in progress. Future improvements will include refining the scraping logic to address the current issues, adding background price checks every 60 minutes, and eventually implementing notification systems. For now, the focus is on stabilizing the data retrieval and ensuring accurate price tracking.
